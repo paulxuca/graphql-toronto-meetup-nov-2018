@@ -1,0 +1,146 @@
+Give thanks
+- Thanks for GraphQL Toronto, Shopify
+
+Who am I
+- Software engineer at Drop (loyalty rewards app)
+- Nowadays just a GraphQL hobbyist
+- Took GraphQL from prototype to production at last job
+    - Refactored a REST Api to GraphQL
+- Want to share some of the GraphQL love I've experienced
+
+Why Prisma?
+# Assumes knowledge of GraphQL and its benefits
+- There are too many steps to get to a working GraphQL server
+    - Additional steps to get it to be performant
+    - Requires extensive domain knowledge about the problem (https://github.com/Shopify/graphql-design-tutorial/blob/master/TUTORIAL.md)
+    - etc, add more
+
+What is Prisma?
+- Slide with github logo + @prisma/prisma
+
+- Datalayer service that sits in front of your database
+- "Database proxy"
+- Runs a GraphQL Api
+    - Supports traditional CRUD style operations
+        - Advanced queries too (starts with, ends with, etc)
+        - queries (read/write) on relations
+    - Pagination
+    - Real time subscriptions
+
+    - *Diagram here*
+    - GraphQL query -> Prisma -> database queries
+
+- Declarative data schema/ migrations
+    - No more migrations! Just write what you want your thing to look like
+
+    - *Diagram here*
+    - schema.graphql -> Picture of DB
+
+- Codegen
+    - Supports JS, Flow, TS, Go
+
+    - *Diagram here*
+    - Traditional querying vs human language based querying
+
+Why does it help us?
+- Lowers the mental model of GraphQL query -> API -> Database
+- Less worries/ lowers # of steps to get from 0 to working GraphQL Api
+- GraphQL -> GraphQL (GraphQL all the way down)
+- Comparison Diagram:
+    - Traditional: query -> (graphql) server -> (sql) database
+    - Now: query -> (graphql) server -> (graphql) Prisma
+-  "allowing API developers to simply think about what data they need instead of worrying about how to securely and performantly retrieve it from the database."
+
+How to use Prisma?
+- *Diagram here*
+- App -> server -> Prisma -> Database
+- Deploy anywhere
+
+But...
+- Need to deploy Prisma API/ Database
+
+What is Prisma cloud?
+- Gives you a *free* database to prototype on
+Also...:
+- Deployment history
+- Databrowser
+- Metrics
+
+How do I get started?
+```
+npm i -g prisma
+```
+
+...Run through setting up Hello World server
+
+1) Run through CLI
+    - Walk through the generated files
+2) Walk through schema.graphql
+    - Prisma SDL
+    - relations
+    - lists
+    - scalars
+3) Deploy schema.graphql
+4) Make some queries
+5) Update schema.graphql
+6) Deploy again
+7) Show Prisma Cloud console 
+
+That's it!
+jk
+
+But...
+how do I do:
+- Authentication / Authorization
+- Preprocessing query
+    - Add defaults to args
+    - Defending against deeply nested queries
+- Postprocessing response
+    - Omit fields
+- Changing the schema
+- Things like:
+    - File uploads
+    - Responding to queries/ mutations (Async work)
+
+- Refer back to diagram for "How to use Prisma"
+
+Maybe do the following if needed:
+- Add line to Codegen Prisma client
+- Add diff here to prisma.yml
+
+Prisma client:
+- "GraphQL ORM"
+- Gives flexibility to use as much/ as little as needed
+- Walk through codegen'd stuff
+- Only care about prisma.js
+
+Go through example of setting up a GraphQLYoga server:
+```
+yarn add graphql graphql-yoga prisma-client-lib
+```
+
+How do I use Prisma client?
+# Assumes knowledge of Node js, if not javascript
+go to a different folder with demo code
+- Start from Hello world example
+1) Add in new type
+2) Add in new resolver
+
+- Show local query
+
+How do I deploy my API?
+Deployment with now (or any way of deploying)
+
+- Make remote query
+- Show Prisma cloud
+
+Recap
+- Prisma lowers the # of steps to setting up a GraphQL API
+- Quickly prototype with GraphQL
+
+
+
+
+LOLS:
+authn: Authentication
+authz: Authorization
