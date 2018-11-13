@@ -1,12 +1,19 @@
-import { Code, Appear } from "mdx-deck";
+import { Code, Appear, Image } from "mdx-deck";
 export { default as theme } from "./theme";
 
-# Prototyping + learning with Prisma
+<img
+  style={{ width: 100, marginBottom: -20 }}
+  src="./assets/prisma-logo-icon.png"
+/>
 
-And Prisma Cloud!
+## Prototyping + learning with Prisma
+
+### And Prisma Cloud!
 
 ```notes
 Thanks to Shopify for hosting, GraphQL Toronto for faciliating
+
+AKA "From 0 to GraphQL in the least amount of time possible"
 ```
 
 ---
@@ -63,6 +70,16 @@ There are too many steps/ decisions involved when starting a GraphQL API.
 - Performance:
     - N + 1 Problem
 - All of this leads to a higher barrier to learning how to build a GraphQL API.
+```
+
+---
+
+### What if developers could worry less about _how_ and more about _what_?
+
+```notes
+- Developers should focus on what they're building and creating value
+- Develoeprs should focus less on how they're building it and worrying too much about
+implementation
 ```
 
 ---
@@ -184,41 +201,18 @@ And later...
 
 ---
 
-### Prisma Codegen
-
-- Supports JavaScript, Flow, Typescript, Go
-- Generates a client for consuming a Prisma GraphQL API
-- "Fluent API"
-
----
-
-import { prismaCodegen } from "./components/constants";
-
-<div style={{ display: "flex", flexDirection: "row", fontSize: "0.7em" }}>
-  <Appear>
-    <div>
-      <div style={{ margin: "0 20px" }}>
-        <code>GraphQL Query</code>
-        <Code className="graphql">
-            {prismaCodegen.graphqlQuery}
-        </Code>
-        </div>
-    </div>
-    <div>
-      <div style={{ margin: "0 20px" }}>
-        <code>Prisma client (Javascript) code</code>
-        <Code className="sql">
-            {prismaCodegen.prismaClientCode}
-        </Code>
-      </div>
-    </div>
-  </Appear>
-</div>
----
-
 Why is Prisma useful?
 
 > "It's GraphQL All the way down!"
+
+```notes
+- Queries
+- Data schema
+- Data migrations
+- Seeding
+- Scripting
+
+```
 
 ---
 
@@ -270,11 +264,20 @@ Now:
   the database. "
 </blockquote>
 
+```notes
+That's the magic of GraphQL (And Prisma!)
+Worry less about how
+  - How data is stored
+  - How data is retrieved
+more about what
+  - Declarative
+```
+
 ---
 
 ### How do I use Prisma?
 
-- TODO: Add diagram
+<img style={{ paddingTop: 40 }} src="./assets/prisma-diagram.png" />
 
 ---
 
@@ -286,13 +289,14 @@ Now:
 ```notes
 All things that prevent a developer from actually working on their GraphQL API!
 - The goal is to prototype + learning
+- Developers shouldn't need to focus on deployments when validating an idea
 ```
 
 ---
 
 ### What is Prisma Cloud?
 
-- In browser console to manage your Prisma service
+- Cloud based tool to manage your Prisma service
 - Prisma Cloud "demo server" provides a **free** Prisma/ Database instance
 
 - Also:
@@ -323,10 +327,203 @@ npm i -g prisma
 
 ---
 
-```jsx
-<CodeSnippet />
+### Demo
+
+```notes
+1) Run through CLI
+    - Walk through the generated files
+2) Walk through schema.graphql
+    - Prisma SDL
+    - relations
+    - lists
+    - scalars
+    - default directive
+3) Deploy schema.graphql
+4) Make some queries
+5) Update schema.graphql
+6) Deploy again
+7) Show Prisma Cloud console
+```
+
+---
+
+<div>
+  <img style={{ maxHeight: 200 }} src="./assets/prisma-logo-icon.png" />
+</div>
+
+<h2>That's it!</h2>
+
+<Appear>
+  <h5>Or is it?</h5>
+</Appear>
+
+---
+
+### But how do I do:
+
+<ul style={{ textAlign: "left" }}>
+  <Appear>
+    <li>Authentication/ Authorization</li>
+    <li>Pre-processing query</li>
+    <li>Post-processing response</li>
+    <li>Modifying schema</li>
+    <li>and more...</li>
+  </Appear>
+</ul>
+
+```notes
+how do I do:
+- Authentication / Authorization
+- Preprocessing query
+    - Add defaults to args
+    - Defending against deeply nested queries
+- Postprocessing response
+    - Omit fields
+- Changing the schema
+- Things like:
+    - File uploads
+    - Responding to queries/ mutations (Async work)
+```
+
+---
+
+### To start:
+
+<code>prisma.yml</code>
+
+```git
+endpoint: https://us1.prisma.sh/foo/bar/dev
+datamodel: datamodel.prisma
+
++generate:
++  - generator: javascript-client
++    output: ./generated/prisma
+
++hooks:
++  post-deploy:
++    - prisma generate
+```
+
+---
+
+### Prisma Codegen
+
+- Supports JavaScript, Flow, Typescript, Go
+- Generates a client for consuming a Prisma GraphQL API
+- "Fluent API"
+
+```notes
+- AKA: GraphQL bindings
+  - Building blocks of GraphQL APIs
+  - Allows composition through embeding remote schemas
+- "GraphQL ORM"
+- Flexibility to use as much or as little of prisma to build your GraphQL as desired
+- Allows developers to use programming language to consume a GraphQL API
+```
+
+---
+
+import { prismaCodegen } from "./components/constants";
+
+<div style={{ display: "flex", flexDirection: "row", fontSize: "0.7em" }}>
+  <Appear>
+    <div>
+      <div style={{ margin: "0 20px" }}>
+        <code>GraphQL Query</code>
+        <Code className="graphql">{prismaCodegen.graphqlQuery}</Code>
+      </div>
+    </div>
+    <div>
+      <div style={{ margin: "0 20px" }}>
+        <code>Prisma client (Javascript) code</code>
+        <Code className="sql">{prismaCodegen.prismaClientCode}</Code>
+      </div>
+    </div>
+  </Appear>
+</div>
+---
+
+### Building a GraphQL API with Prisma:
+
+```bash
+npm i graphql graphql-yoga prisma-client-lib
+```
+
+---
+
+### Demo 2
+
+---
+
+# Deploying Prisma
+
+- Can deploy anywhere
+- No vendor lock in
+- Minimal depedencies:
+
+```yaml
+image: prismagraphql/prisma
+```
+
+```notes
+- Deploy to AWS, GCP, Digital Ocean, etc
+- If you want to migrate away from Prisma, you can (it's just a database underneath!)
+- Only requires the Prisma runtime
+```
+
+---
+
+### Demo 3
+
+---
+
+<div>
+  <img style={{ maxHeight: 200 }} src="./assets/prisma-logo-icon.png" />
+</div>
+
+## Recap
+
+- Prisma makes it easier to set up a GraphQL API
+- Quickly prototype with GraphQL
+
+```notes
+- Allows thinking in terms of domains, not data.
 ```
 
 ---
 
 # The end
+
+---
+
+### JUST IN CASE:
+
+---
+
+<img width="100%" src="./assets/demo1/1.png" />
+
+---
+
+<img width="100%" src="./assets/demo1/2.png" />
+
+---
+
+<img width="100%" src="./assets/demo1/3.png" />
+
+---
+
+<img width="100%" src="./assets/demo1/4.png" />
+
+---
+
+<img width="100%" src="./assets/demo1/5.png" />
+
+---
+
+<img width="100%" src="./assets/demo1/6.png" />
+
+---
+
+<img width="100%" src="./assets/demo1/7.png" />
+
+---
